@@ -1,0 +1,49 @@
+<?php
+$modelData = $block->getModelData();
+?>
+<div class="free-layout-data">
+	<div class="field">
+		<div class="label"><?= $block->escapeHtml(__('Product Name')) ?></div>
+		<div class="content"><a href="<?= $block->getProductUrl($modelData['product_id']) ?>" target="_blank"><?= $block->escapeHtml(__($block->getProduct($modelData['product_id'])->getName())) ?></a></div>
+	</div>
+	<div class="field">
+		<div class="label"><?= $block->escapeHtml(__('Product Sku')) ?></div>
+		<div class="content"><a href="<?= $block->getProductUrl($modelData['product_id']) ?>" target="_blank"><?= $block->escapeHtml(__($block->getProduct($modelData['product_id'])->getSku())) ?></a></div>
+	</div>
+	<div class="field">
+		<div class="label"><?= $block->escapeHtml(__('Customer Name')) ?></div>
+		<div class="content"><?= $block->escapeHtml(__($modelData['name'])) ?></div>
+	</div>
+	<div class="field">
+		<div class="label"><?= $block->escapeHtml(__('Email')) ?></div>
+		<div class="content"><?= $block->escapeHtml(__($modelData['email'])) ?></div>
+	</div>
+	<div class="field">
+		<div class="label"><?= $block->escapeHtml(__('Phone Number')) ?></div>
+		<div class="content"><?= $block->escapeHtml(__($modelData['mobile_number'])) ?></div>
+	</div>
+	<div class="field">
+		<div class="label"><?= $block->escapeHtml(__('Height')) ?></div>
+		<div class="content"><?= $block->escapeHtml(__($modelData['height'])) ?></div>
+	</div>
+	<div class="field">
+		<div class="label"><?= $block->escapeHtml(__('Width')) ?></div>
+		<div class="content"><?= $block->escapeHtml(__($modelData['width'])) ?></div>
+	</div>
+	<div class="field">
+		<div class="label"><?= $block->escapeHtml(__('Status')) ?></div>
+		<div class="content"><?= $block->escapeHtml(__($modelData['status'])) ?></div>
+	</div>
+	<div class="field">
+		<div class="label"><?= $block->escapeHtml(__('Created At')) ?></div>
+		<div class="content"><?= $block->escapeHtml(__($modelData['created_at'])) ?></div>
+	</div>
+	<!-- Harsh Code Start -->
+	<?php echo $modelData['image']; ?>
+</div>
+<style type="text/css">
+	.free-layout-data .label{display: inline-block; font-weight: 600;}
+	.free-layout-data .content{display: inline-block; float: right;}
+	.free-layout-data .field { width: 50%; text-transform: capitalize; border-bottom: 1px dotted;}
+	.free-layout-data { margin-top: 3em; }
+</style>

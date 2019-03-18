@@ -1,0 +1,93 @@
+<?php
+	$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+	$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+	$baseUrl = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore(0)->getBaseUrl();
+	$urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
+	$currentUrl = $urlInterface->getCurrentUrl(); 
+	
+	$_productCollection = $block->getLoadedProductCollection();
+  	$_helper = $this->helper('Magento\Catalog\Helper\Output');
+  	$_product = $block->getProduct();
+  	$productId = $objectManager->get('Magento\Catalog\Model\Product')->getIdBySku($_product->getSku());
+?>
+<a id="click-me"><?php echo $block->escapeHtml(__('Book A Free 3D Layout')) ?></a>
+
+<!-- Popup Code -->
+<div id="popup-modal" style="display:none;">
+	<div><h1><?php $block->escapeHtml(__('Book Free 3D Layout')) ?></h1></div>
+	<form action="<?php echo $block->getBaseUrl().'booklayout/index/save'; ?>" enctype='multipart/form-data' class="sup-contact" method="post" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
+		<div class="form-group col-md-6">
+            <label class="conactsupplier-label required" ><?php echo $block->escapeHtml(__('Name')) ?></label>
+            <input type="text" name="name" placeholder="Enter Your Name Here" data-validate='{"required":true}' value="<?php if($customerSession->isLoggedIn()) { echo  $customerSession->getCustomer()->getName(); } ?>" />
+        </div>
+        <div class="form-group col-md-6">
+            <label class="conactsupplier-label required"><?php echo $block->escapeHtml(__('Email')) ?> </label>
+            <input type="text" name="email"  data-validate='{"required":true, "validate-email":true}' placeholder="Enter Your Email Here" value="<?php if($customerSession->isLoggedIn()) { echo  $customerSession->getCustomer()->getEmail(); } ?>" />
+        </div>
+        <div class="form-group col-md-6">
+            <label class="conactsupplier-label required"><?php echo $block->escapeHtml(__('Phone Number')) ?></label>
+            <input type="text" name="mobile_number"  data-validate='{"required":true}' placeholder="Enter Your Phone Number Here"  value="<?php if($customerSession->isLoggedIn()) { echo  $customerSession->getCustomer()->getPrimaryBillingAddress()->getTelephone(); } ?>"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="conactsupplier-label required"><?php echo $block->escapeHtml(__('Height')) ?></label>
+            <input type="text" name="height"  data-validate='{"required":true, "validate-number":true}' placeholder="Enter Height Here"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="conactsupplier-label required"><?php echo $block->escapeHtml(__('Width')) ?></label>
+            <input type="text" name="width"  data-validate='{"required":true, "validate-number":true}' placeholder="Enter Width Here"/>
+        </div>
+        <div class="form-group col-md-12" id="text">
+        	<label class="conactsupplier-label"><?php echo $block->escapeHtml(__('Attachment')) ?></label>
+            <input name="image[]" id="image" title="Image" value="" class="input-file" type="file" data-validate='{"required":true}'>
+            <input type="button" id="add-file-field" name="add" value="Add Image" />
+        </div>
+
+        <input type="hidden" name="url" value="<?php echo  $currentUrl; ?>">
+		<input type="hidden" name="entid" value="<?php echo  $productId; ?>">
+
+     	<input type="submit" name="" value="Submit"  class="button">
+
+	</form>
+</div>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+               
+                buttons: [{
+                    text: $.mage.__('Close'),
+                     class: 'button',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            var popup = modal(options, $('#popup-modal'));
+            $("#click-me").on('click',function(){ 
+                $("#popup-modal").modal("openModal");
+            });
+            $("#image").change(function(e) {
+
+			});
+			// This will add new input field
+            $("#add-file-field").click(function(){
+                $("#text").append("<div class='added-field'>Attachment <input name='image[]' type='file' /><input type='button' class='remove-btn' value='Remove Image' /></div>");
+            });
+            // So the newly added field can be removed too
+            $(".remove-btn").live('click',function() {
+                $(this).parent().remove();
+            });
+        }
+    );
+</script>

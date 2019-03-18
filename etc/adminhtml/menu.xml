@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="magneto_booklayout::core" title="BookLayout" module="Magneto_BookLayout" sortOrder="90" resource="Magneto_BookLayout::sample"/>
+        <add id="magneto_booklayout::test" title="Items" module="Magneto_BookLayout" sortOrder="10" parent="magneto_booklayout::core" action="magneto_booklayout/items/" resource="Magneto_BookLayout::items"/>
+    </menu>
+</config>
